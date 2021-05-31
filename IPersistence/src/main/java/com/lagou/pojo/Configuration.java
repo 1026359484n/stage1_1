@@ -11,4 +11,17 @@ public class Configuration {
      * key: statementId
      */
     Map<String,MappedStatement> mappedStatementMap = new HashMap<String, MappedStatement>();
+
+    public DataSource getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public Map<String, MappedStatement> getMappedStatementMap() {
+        return mappedStatementMap;
+    }
+
 }
