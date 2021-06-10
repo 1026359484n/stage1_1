@@ -37,7 +37,7 @@ public class DefaultSqlSession implements SqlSession {
     @Override
     public <T> T getMapper(Class<?> mapperClass) {
         //使用jdk动态代理来为Dao接口生成代理对象，并返回
-        Object newProxyInstance = Proxy.newProxyInstance(DefaultSqlSession.class.getClassLoader(), new Class[]{mapperClass}, (InvocationHandler) (proxy, method, args) -> {
+        Object newProxyInstance = Proxy.newProxyInstance(DefaultSqlSession.class.getClassLoader(), new Class[]{mapperClass}, (proxy, method, args) -> {
             //底层还是执行jdbc代码 //根据不同情况调用selectList或者selectOne
             //准备参数 1.statementId: sql语句的唯一标识 namespace.id=接口全限定名.方法名
             String methodName = method.getName();
@@ -50,6 +50,6 @@ public class DefaultSqlSession implements SqlSession {
             if (genericReturnType instanceof ParameterizedType) return selectList(statementId,args);
             return selectOne(statementId,args);
         });
-        return null;
+        return (T) newProxyInstance;
     }
 }
